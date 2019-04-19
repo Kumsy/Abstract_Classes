@@ -65,6 +65,10 @@ class AbstractMelonOrder():
     def __init__(self, species, qty, country_code = None ):
 
         self.species = species
+        if self.species == 'christmas':
+            self.base_price = 5 * 1.5
+        else:
+            self.base_price = 5    
         self.qty = qty 
         self.shipped = False
 
@@ -75,8 +79,12 @@ class AbstractMelonOrder():
     def get_total(self):
         """Calculate price, including tax."""
 
-        base_price = 5
-        total = (1 + self.tax) * self.qty * base_price
+
+
+        total = (1 + self.tax) * self.qty * self.base_price
+
+        if self.country_code != "US" and self.qty < 10:
+            total += 3
 
         return total    
 
